@@ -1,0 +1,18 @@
+export const categories = [
+  { name: "Menu", id: "Menu" },
+  { name: "Papa Jes's PIZZA", id: "Papa Jes's PIZZA" },
+  { name: "Chicken & Nuggets", id: "Chicken & Nuggets" },
+  { name: "PIZZA COMBO MEALS", id: "PIZZA COMBO MEALS" },
+  { name: "MERIENDA MEALS", id: "MERIENDA MEALS" },
+  { name: "SHAWARMA CONE", id: "SHAWARMA CONE" },
+  { name: "FRIED NOODLES", id: "FRIED NOODLES" },
+  { name: "PIZZA BURGER", id: "PIZZA BURGER" },
+  { name: "FRIES ON TOP", id: "FRIES ON TOP" },
+  { name: "2 in 1 PIZZA", id: "2 in 1 PIZZA" },
+  { name: "Silog Meals", id: "Silog Meals" },
+  { name: "HOT COFFEE", id: "HOT COFFEE" },
+  { name: "Takoyaki", id: "Takoyaki" },
+  { name: "MILKTEA", id: "MILKTEA" },
+  { name: "Burger", id: "Burger" },
+  { name: "FRIES", id: "FRIES" },
+];  
