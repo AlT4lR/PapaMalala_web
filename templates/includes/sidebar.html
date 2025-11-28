@@ -1,0 +1,67 @@
+<!-- Sidebar: The "Chalkboard" -->
+<aside class="w-80 bg-gray-900 border-r border-gray-700 shadow-2xl flex flex-col h-full z-10 shrink-0 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 overflow-y-auto">
+            
+    <!-- Header -->
+    <div class="p-5 border-b border-gray-700 flex items-center space-x-3 bg-gray-900">
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" class="w-12 h-12 rounded-lg object-cover border-2 border-red-700">
+        <div>
+            <h1 class="font-bold text-white text-xl tracking-wide uppercase">Papa Jes's</h1>
+            <p class="text-xs text-red-500 font-bold tracking-widest">PIZZAHOUSE</p>
+        </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="flex-1 p-5 space-y-6">
+        
+        <!-- Section 1: Categories (Toggleable - Default CLOSED) -->
+        <div>
+            <button id="categories-header" class="w-full flex justify-between items-center group focus:outline-none mb-2">
+                <h2 class="text-xs font-bold text-red-500 uppercase tracking-wider group-hover:text-red-400 transition">
+                    Categories
+                </h2>
+                <!-- Arrow points right (-90deg) by default now -->
+                <span id="categories-arrow" class="text-gray-500 text-xs transform -rotate-90 transition-transform duration-200 group-hover:text-white">
+                    ▼
+                </span>
+            </button>
+            
+            <!-- Menu container is hidden (max-h-0, opacity-0) by default now -->
+            <nav id="menu-container" class="max-h-0 opacity-0 overflow-hidden space-y-1 pl-2 border-l-2 border-gray-700 transition-all duration-300 ease-in-out">
+                <!-- Loading Skeleton -->
+                <div class="animate-pulse flex space-x-4">
+                    <div class="h-4 bg-gray-700 rounded w-3/4"></div>
+                </div>
+            </nav>
+        </div>
+        
+        <hr class="border-gray-700 opacity-50"/>
+
+        <!-- Section 2: Best Sellers -->
+        <div>
+            <h2 class="text-xs font-bold text-red-500 uppercase tracking-wider mb-3">
+                Best in Town
+            </h2>
+            <div id="bestsellers-container" class="space-y-3">
+                <p class="text-sm text-gray-500 italic">Checking the oven...</p>
+            </div>
+        </div>
+
+        <hr class="border-gray-700 opacity-50"/>
+
+        <!-- Section 3: Info -->
+        <div>
+            <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Info</h2>
+            <div class="text-sm text-gray-400 space-y-3">
+                <a href="#" class="flex items-center space-x-2 hover:text-white transition">
+                    <span>📍</span> <span>Store Locator</span>
+                </a>
+                <a href="#" class="flex items-center space-x-2 hover:text-white transition">
+                    <span>📞</span> <span>0977-004-0357</span>
+                </a>
+                <a href="#" class="flex items-center space-x-2 hover:text-white transition">
+                    <span>💬</span> <span>About Us</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</aside>

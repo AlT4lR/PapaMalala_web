@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Papa Jes's Pizzeria{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Main Script -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body class="bg-gray-800 font-sans text-gray-100 overflow-hidden">
+
+    <!-- The main layout container -->
+    <div class="h-screen flex flex-row">
+        
+        <!-- Sidebar Block (Can be overridden or included) -->
+        {% block sidebar %}
+        {% endblock %}
+
+        <!-- Main Content Block -->
+        <main class="flex-1 relative bg-gray-800">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </div>
+
+</body>
+</html>
