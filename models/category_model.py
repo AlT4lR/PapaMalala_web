@@ -5,7 +5,6 @@ class CategoryModel:
     def get_all_categories():
         """
         Fetches all categories from the 'categories' collection.
+        We include the _id so we can link products to their category names.
         """
-        # Fetching all documents. 
-        # {'_id': 0} excludes the ID from the result to make it cleaner JSON
-        return list(db.categories.find({}, {'_id': 0}))
+        return list(db.categories.find({}))

@@ -13,30 +13,7 @@
     <!-- Scrollable Content -->
     <div class="flex-1 p-5 space-y-6">
         
-        <!-- Section 1: Categories (Toggleable - Default CLOSED) -->
-        <div>
-            <button id="categories-header" class="w-full flex justify-between items-center group focus:outline-none mb-2">
-                <h2 class="text-xs font-bold text-red-500 uppercase tracking-wider group-hover:text-red-400 transition">
-                    Categories
-                </h2>
-                <!-- Arrow points right (-90deg) by default now -->
-                <span id="categories-arrow" class="text-gray-500 text-xs transform -rotate-90 transition-transform duration-200 group-hover:text-white">
-                    ▼
-                </span>
-            </button>
-            
-            <!-- Menu container is hidden (max-h-0, opacity-0) by default now -->
-            <nav id="menu-container" class="max-h-0 opacity-0 overflow-hidden space-y-1 pl-2 border-l-2 border-gray-700 transition-all duration-300 ease-in-out">
-                <!-- Loading Skeleton -->
-                <div class="animate-pulse flex space-x-4">
-                    <div class="h-4 bg-gray-700 rounded w-3/4"></div>
-                </div>
-            </nav>
-        </div>
-        
-        <hr class="border-gray-700 opacity-50"/>
-
-        <!-- Section 2: Best Sellers -->
+        <!-- Section 1: Best Sellers (Moved to top) -->
         <div>
             <h2 class="text-xs font-bold text-red-500 uppercase tracking-wider mb-3">
                 Best in Town
@@ -48,7 +25,7 @@
 
         <hr class="border-gray-700 opacity-50"/>
 
-        <!-- Section 3: Info -->
+        <!-- Section 2: Info -->
         <div>
             <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Info</h2>
             <div class="text-sm text-gray-400 space-y-3">
