@@ -20,12 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 // ITEM ENTERS SCREEN: Animate In (Visible)
                 el.classList.remove('opacity-0', 'translate-y-12', 'scale-95');
                 el.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+            } else {
+                // ITEM LEAVES SCREEN: Reset to hidden state so it animates again
+                el.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+                el.classList.add('opacity-0', 'translate-y-12', 'scale-95');
             }
-            // Optional: Uncomment else block if you want items to fade out when scrolling up
-            // else {
-            //     el.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
-            //     el.classList.add('opacity-0', 'translate-y-12', 'scale-95');
-            // }
         });
     }, observerOptions);
 
