@@ -76,10 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function formatPrice(price) {
-        return "₱" +qh(price); // Fixed typo from 'qh' to just format logic if needed, but assuming original was 'return "₱" + price;'
-    }
-    // Correcting the formatPrice function based on original file content logic
-    function formatPrice(price) {
         return "₱" + price;
     }
 
@@ -165,8 +161,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         const delayIndex = (index % (window.innerWidth < 768 ? 2 : 4)); 
                         card.style.transitionDelay = `${delayIndex * 100}ms`; 
 
-                        // CHANGED: Corrected extension to .jpg
-                        const fallbackImage = "/static/logo.jpg";
+                        // CHANGED: Use local logo.jpg and circular styling logic
+                        const fallbackImage = "/static/images/logo.jpg"; // ADDED 'images/'
 
                         card.innerHTML = `
                             <!-- IMAGE SECTION -->
