@@ -16,15 +16,15 @@
 </head>
 <body class="bg-gray-800 font-sans text-gray-100 overflow-hidden">
 
-    <!-- The main layout container -->
-    <div class="h-screen flex flex-row">
+    <!-- UPDATED: flex-col for mobile, md:flex-row for desktop -->
+    <div class="h-screen flex flex-col md:flex-row">
         
-        <!-- Sidebar Block (Can be overridden or included) -->
+        <!-- Sidebar Block -->
         {% block sidebar %}
         {% endblock %}
 
         <!-- Main Content Block -->
-        <main class="flex-1 relative bg-gray-800">
+        <main class="flex-1 relative bg-gray-800 overflow-hidden">
             {% block content %}
             {% endblock %}
         </main>

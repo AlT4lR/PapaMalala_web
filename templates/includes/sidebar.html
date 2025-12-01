@@ -1,19 +1,29 @@
-<!-- Sidebar: The "Chalkboard" -->
-<aside class="w-80 bg-gray-900 border-r border-gray-700 shadow-2xl flex flex-col h-full z-10 shrink-0 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 overflow-y-auto">
+<!-- Sidebar: Acts as Navbar on Mobile, Sidebar on Desktop -->
+<aside class="w-full md:w-80 bg-gray-900 border-b md:border-b-0 md:border-r border-gray-700 shadow-2xl flex flex-col z-20 shrink-0 h-auto md:h-full transition-all duration-300">
             
-    <!-- Header -->
-    <div class="p-5 border-b border-gray-700 flex items-center space-x-3 bg-gray-900">
-        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" class="w-12 h-12 rounded-lg object-cover border-2 border-red-700">
-        <div>
-            <h1 class="font-bold text-white text-xl tracking-wide uppercase">Papa Jes's</h1>
-            <p class="text-xs text-red-500 font-bold tracking-widest">PIZZAHOUSE</p>
+    <!-- Header Row (Logo + Toggle) -->
+    <div class="p-4 md:p-5 flex items-center justify-between bg-gray-900">
+        <div class="flex items-center space-x-3">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover border-2 border-red-700">
+            <div>
+                <h1 class="font-bold text-white text-lg md:text-xl tracking-wide uppercase">Papa Jes's</h1>
+                <p class="text-[10px] md:text-xs text-red-500 font-bold tracking-widest">PIZZAHOUSE</p>
+            </div>
         </div>
+
+        <!-- Hamburger Button (Mobile Only) -->
+        <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white focus:outline-none p-2 rounded-md hover:bg-gray-800 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
     </div>
 
     <!-- Scrollable Content -->
-    <div class="flex-1 p-5 space-y-6">
+    <!-- UPDATED: 'hidden' on mobile, 'flex' on desktop. -->
+    <div id="sidebar-content" class="hidden md:flex flex-col flex-1 overflow-y-auto p-5 space-y-6 border-t md:border-t-0 border-gray-800 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 bg-gray-900">
         
-        <!-- Section 1: Best Sellers (Moved to top) -->
+        <!-- Section 1: Best Sellers -->
         <div>
             <h2 class="text-xs font-bold text-red-500 uppercase tracking-wider mb-3">
                 Best in Town
@@ -29,17 +39,12 @@
         <div>
             <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Info</h2>
             <div class="text-sm text-gray-400 space-y-3">
-                <!-- Google Maps Search -->
                 <a href="https://www.google.com/maps/search/Papa+Jes's+Pizzahouse" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 hover:text-white transition">
                     <span>📍</span> <span>Store Locator</span>
                 </a>
-                
-                <!-- Clickable Phone Number -->
                 <a href="tel:09770040357" class="flex items-center space-x-2 hover:text-white transition">
                     <span>📞</span> <span>0977-004-0357</span>
                 </a>
-                
-                <!-- Facebook Link -->
                 <a href="https://www.facebook.com/share/1BvaD3icP4/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 hover:text-white transition">
                     <span>💬</span> <span>About Us</span>
                 </a>

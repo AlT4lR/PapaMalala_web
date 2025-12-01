@@ -22,6 +22,14 @@ def get_menu_categories():
     except Exception as e:
         print(f"Error fetching categories: {e}")
         return jsonify([]), 500
+    
+@api_bp.route('/debug-product')
+def debug_product():
+    from database import db
+    from bson.json_util import dumps
+    # Get one product to see all its fields (including images)
+    product = db.products.find_one()
+    return dumps(product)
 
 @api_bp.route('/best-sellers')
 def get_best_sellers():
