@@ -3,14 +3,45 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- DOM ELEMENTS ---
     const bestsellersContainer = document.getElementById('bestsellers-container');
     const mainMenuGrid = document.getElementById('main-menu-grid');
+    const loaderScreen = document.getElementById('global-loader');
+    const loaderProgress = document.getElementById('loader-progress');
     
+    // --- LOADING BAR LOGIC ---
+    let progress = 10;
+    
+    // Fake progress animation (starts slow, speeds up when data arrives)
+    const progressInterval = setInterval(() => {
+        if(loaderProgress) {
+            progress += Math.random() * 10;
+            if (progress > 90) progress = 90; // Stall at 90% until data loads
+            loaderProgress.style.width = `${progress}%`;
+        }
+    }, 200);
+
+    function finishLoading() {
+        if (!loaderScreen || !loaderProgress) return;
+
+        // 1. Force bar to 100%
+        clearInterval(progressInterval);
+        loaderProgress.style.width = '100%';
+
+        // 2. Wait a split second for the bar to fill, then fade out
+        setTimeout(() => {
+            loaderScreen.classList.add('opacity-0', 'pointer-events-none');
+            
+            // 3. Completely remove from DOM after fade completes
+            setTimeout(() => {
+                loaderScreen.remove();
+            }, 700);
+        }, 500);
+    }
+
     // --- MOBILE MENU LOGIC ---
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const sidebarContent = document.getElementById('sidebar-content');
 
     if (mobileMenuBtn && sidebarContent) {
         mobileMenuBtn.addEventListener('click', () => {
-            // Toggle the 'hidden' class to show/hide content
             sidebarContent.classList.toggle('hidden');
         });
     }
@@ -18,8 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- DYNAMIC ANIMATION OBSERVER ---
     const observerOptions = {
         root: null, 
-        rootMargin: '0px', // Trigger exactly when it enters view
-        threshold: 0.1     // Trigger when 10% of item is visible
+        rootMargin: '0px', 
+        threshold: 0.1 
     };
 
     const scrollObserver = new IntersectionObserver((entries) => {
@@ -27,11 +58,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const el = entry.target;
             
             if (entry.isIntersecting) {
-                // ENTERING VIEW: Animate In
+                // ENTERING: Animate In
                 el.classList.remove('opacity-0', 'translate-y-12', 'scale-95');
                 el.classList.add('opacity-100', 'translate-y-0', 'scale-100');
             } else {
-                // LEAVING VIEW: Reset to Invisible (allows fade-in on scroll up)
+                // LEAVING: Reset to invisible (allows re-animation on scroll up)
                 el.classList.add('opacity-0', 'translate-y-12', 'scale-95');
                 el.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
             }
@@ -70,10 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 data.forEach((item, index) => {
                     const card = document.createElement('div');
-                    // ANIMATION CLASSES: opacity-0 translate-y-12 scale-95
                     card.className = 'flex items-center justify-between p-3 bg-gray-900/50 rounded-lg border border-gray-800 shadow-sm border-l-4 border-l-red-800 opacity-0 translate-y-12 scale-95 transition-all duration-500 ease-out';
-                    
-                    // Slightly shorter delay for sidebar items so they feel snappier on re-entry
                     card.style.transitionDelay = `${index * 50}ms`;
 
                     card.innerHTML = `
@@ -90,10 +118,13 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(err => console.error("Best sellers error:", err));
     }
 
-    loadBestSellers();
-
     // --- 2. FETCH MAIN MENU GRID ---
-    if (mainMenuGrid) {
+    function loadMainMenu() {
+        if (!mainMenuGrid) {
+            finishLoading(); // If no grid, just finish loading
+            return;
+        }
+
         fetch('/api/full-menu')
             .then(response => response.json())
             .then(data => {
@@ -103,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (categories.length === 0) {
                     mainMenuGrid.innerHTML = '<p class="text-white opacity-50">Menu is currently empty.</p>';
+                    finishLoading(); // Stop loader even if empty
                     return;
                 }
 
@@ -124,15 +156,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     products.forEach((prod, index) => {
                         const card = document.createElement('div');
                         
-                        // Added 'overflow-hidden' so the image stays rounded
                         card.className = 'group relative bg-gray-900/85 backdrop-blur-md border border-white/5 rounded-xl flex flex-col justify-between h-full opacity-0 translate-y-12 scale-95 transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-black/50 hover:border-red-500/30 overflow-hidden';
                         
-                        // Staggered Delay Logic
                         const delayIndex = (index % (window.innerWidth < 768 ? 2 : 4)); 
                         card.style.transitionDelay = `${delayIndex * 100}ms`; 
 
-                        // FALLBACK IMAGE URL
-                        const fallbackImage = "https://placehold.co/600x400/111827/DC2626?text=Coming+Soon";
+                        // CHANGED: Use local logo and circular styling logic
+                        const fallbackImage = "/static/logo.png";
 
                         card.innerHTML = `
                             <!-- IMAGE SECTION -->
@@ -140,13 +170,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <img src="${prod.image}" 
                                      alt="${prod.name}" 
                                      loading="lazy"
-                                     onerror="this.onerror=null; this.src='${fallbackImage}';"
+                                     onerror="this.onerror=null; this.src='${fallbackImage}'; this.parentElement.classList.add('flex', 'items-center', 'justify-center'); this.classList.remove('w-full', 'h-full', 'object-cover'); this.classList.add('w-28', 'h-28', 'object-contain', 'rounded-full', 'bg-gray-900', 'shadow-lg', 'border', 'border-gray-700');"
                                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                
-                                <!-- Dark Gradient at bottom of image -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
-                                
-                                <!-- THE RED LINE ANIMATION -->
                                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                             </div>
 
@@ -172,10 +198,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     section.appendChild(grid);
                     mainMenuGrid.appendChild(section);
                 });
+
+                // STOP LOADER when data is ready
+                finishLoading();
             })
             .catch(err => {
                 console.error("Error loading main menu:", err);
                 mainMenuGrid.innerHTML = '<p class="text-red-400">Could not load menu.</p>';
+                finishLoading(); // Stop loader even on error
             });
     }
+
+    // Initialize
+    loadBestSellers();
+    loadMainMenu();
 });

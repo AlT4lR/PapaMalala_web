@@ -16,6 +16,27 @@
 </head>
 <body class="bg-gray-800 font-sans text-gray-100 overflow-hidden">
 
+    <!-- === LOADING SCREEN === -->
+    <div id="global-loader" class="fixed inset-0 z-[100] bg-gray-950 flex flex-col items-center justify-center transition-opacity duration-700">
+        <!-- Bouncing Pizza Image -->
+        <!-- Using a nice flat icon pizza for the animation -->
+        <img src="https://cdn-icons-png.flaticon.com/512/3595/3595458.png" 
+             alt="Loading..." 
+             class="w-20 h-20 md:w-28 md:h-28 animate-bounce drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">
+        
+        <!-- Loading Bar Container -->
+        <div class="mt-8 w-64 h-2 bg-gray-900 rounded-full overflow-hidden border border-gray-800 shadow-inner relative">
+            <!-- The Moving Bar -->
+            <div id="loader-progress" class="absolute top-0 left-0 h-full bg-gradient-to-r from-red-600 to-yellow-500 w-0 rounded-full transition-all duration-300 ease-out shadow-[0_0_10px_rgba(220,38,38,0.8)]"></div>
+        </div>
+
+        <!-- Text -->
+        <p class="mt-4 text-[10px] md:text-xs font-bold text-red-500 tracking-[0.3em] animate-pulse">
+            HEATING OVEN...
+        </p>
+    </div>
+    <!-- ====================== -->
+
     <!-- UPDATED: flex-col for mobile, md:flex-row for desktop -->
     <div class="h-screen flex flex-col md:flex-row">
         
