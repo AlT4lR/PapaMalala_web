@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- DYNAMIC ANIMATION OBSERVER ---
     const observerOptions = {
         root: null, 
-        rootMargin: '0px', 
-        threshold: 0.1 
+        rootMargin: '0px', // Trigger exactly when it enters view
+        threshold: 0.1     // Trigger when 10% of item is visible
     };
 
     const scrollObserver = new IntersectionObserver((entries) => {
@@ -27,9 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const el = entry.target;
             
             if (entry.isIntersecting) {
+                // ENTERING VIEW: Animate In
                 el.classList.remove('opacity-0', 'translate-y-12', 'scale-95');
                 el.classList.add('opacity-100', 'translate-y-0', 'scale-100');
-                el.style.transitionDelay = '0ms'; 
+            } else {
+                // LEAVING VIEW: Reset to Invisible (allows fade-in on scroll up)
+                el.classList.add('opacity-0', 'translate-y-12', 'scale-95');
+                el.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
             }
         });
     }, observerOptions);
@@ -66,8 +70,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 data.forEach((item, index) => {
                     const card = document.createElement('div');
+                    // ANIMATION CLASSES: opacity-0 translate-y-12 scale-95
                     card.className = 'flex items-center justify-between p-3 bg-gray-900/50 rounded-lg border border-gray-800 shadow-sm border-l-4 border-l-red-800 opacity-0 translate-y-12 scale-95 transition-all duration-500 ease-out';
-                    card.style.transitionDelay = `${index * 100}ms`;
+                    
+                    // Slightly shorter delay for sidebar items so they feel snappier on re-entry
+                    card.style.transitionDelay = `${index * 50}ms`;
 
                     card.innerHTML = `
                         <div class="flex items-center space-x-3">
@@ -112,28 +119,50 @@ document.addEventListener('DOMContentLoaded', function () {
                     scrollObserver.observe(title);
 
                     const grid = document.createElement('div');
-                    // Responsive Grid Classes
                     grid.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-16 md:mb-20';
 
                     products.forEach((prod, index) => {
                         const card = document.createElement('div');
-                        card.className = 'group relative bg-gray-900/85 backdrop-blur-md border border-white/5 rounded-xl p-4 md:p-5 flex flex-col justify-between h-full opacity-0 translate-y-12 scale-95 transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-black/50 hover:border-red-500/30';
                         
+                        // Added 'overflow-hidden' so the image stays rounded
+                        card.className = 'group relative bg-gray-900/85 backdrop-blur-md border border-white/5 rounded-xl flex flex-col justify-between h-full opacity-0 translate-y-12 scale-95 transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-black/50 hover:border-red-500/30 overflow-hidden';
+                        
+                        // Staggered Delay Logic
                         const delayIndex = (index % (window.innerWidth < 768 ? 2 : 4)); 
                         card.style.transitionDelay = `${delayIndex * 100}ms`; 
 
+                        // FALLBACK IMAGE URL
+                        const fallbackImage = "https://placehold.co/600x400/111827/DC2626?text=Coming+Soon";
+
                         card.innerHTML = `
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-xl"></div>
-                            <div class="mb-4">
-                                <h3 class="text-gray-100 font-bold text-base md:text-lg leading-snug tracking-wide group-hover:text-red-400 transition-colors">
-                                    ${toTitleCase(prod.name)}
-                                </h3>
+                            <!-- IMAGE SECTION -->
+                            <div class="relative h-48 w-full overflow-hidden bg-gray-800">
+                                <img src="${prod.image}" 
+                                     alt="${prod.name}" 
+                                     loading="lazy"
+                                     onerror="this.onerror=null; this.src='${fallbackImage}';"
+                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                
+                                <!-- Dark Gradient at bottom of image -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
+                                
+                                <!-- THE RED LINE ANIMATION -->
+                                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                             </div>
-                            <div class="mt-auto border-t border-white/10 pt-3 flex items-center justify-between">
-                                <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold group-hover:text-gray-400 transition-colors">Regular</span>
-                                <span class="text-yellow-500 font-bold text-xl md:text-2xl font-serif tracking-wider drop-shadow-sm group-hover:text-yellow-400 transition-colors">
-                                    ${formatPrice(prod.price)}
-                                </span>
+
+                            <!-- CONTENT SECTION -->
+                            <div class="p-4 flex flex-col flex-1">
+                                <div class="mb-4">
+                                    <h3 class="text-gray-100 font-bold text-base md:text-lg leading-snug tracking-wide group-hover:text-red-400 transition-colors">
+                                        ${toTitleCase(prod.name)}
+                                    </h3>
+                                </div>
+                                <div class="mt-auto pt-3 flex items-center justify-between border-t border-white/10">
+                                    <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold group-hover:text-gray-400 transition-colors">Regular</span>
+                                    <span class="text-yellow-500 font-bold text-xl md:text-2xl font-serif tracking-wider drop-shadow-sm group-hover:text-yellow-400 transition-colors">
+                                        ${formatPrice(prod.price)}
+                                    </span>
+                                </div>
                             </div>
                         `;
                         grid.appendChild(card);
